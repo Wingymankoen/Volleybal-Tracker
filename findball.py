@@ -20,20 +20,18 @@ def get_high(mask):
             chigh = c
     return chigh
 
+
 def get_ball(figs, wd):
 
     for idx, frame in enumerate(figs):
         mask = cv.GaussianBlur(frame, (7, 7), 0)
         mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)
         ret, mask = cv.threshold(mask, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
-        #cmask = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
         chigh = get_high(mask)
         if chigh is not None:
             rx, ry, rw, rh = cv.boundingRect(chigh)
+            #mask = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
             cut = mask[ry: ry + rh, rx: rx + rw]
             cv.imwrite(wd + '\\Data\\Contours' + "\\cleared%d.jpg" % idx, cut)
 
         #cv.imwrite(wd + "\\temp.jpg", mask)
-
-
-
